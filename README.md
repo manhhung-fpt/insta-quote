@@ -59,7 +59,7 @@ This time-boxed version supports common single-line invoice, packing-list and do
 
 ### What was the hardest decision, and why did I choose that approach?
 
-The hardest decision was where to place AI in the pipeline. Using a model for extraction would improve recall across varied layouts, but it would also make the core requirement, never return a number without evidence—harder to enforce and test. I therefore made extraction deterministic and deliberately conservative: PDF.js reconstructs page aware source lines, strict parsers accept only recognizable table rows, and every numeric field is created together with its page, source line, and raw token. AI runs afterward as a qualitative reviewer and cannot mutate extraction output. Its response is also rejected if its prose introduces a number.
+The hardest decision was where to place AI in the pipeline. Using a model for extraction would improve recall across varied layouts, but it would also make the core requirement, never return a number without evidence harder to enforce and test. I therefore made extraction deterministic and deliberately conservative: PDF.js reconstructs page aware source lines, strict parsers accept only recognizable table rows, and every numeric field is created together with its page, source line, and raw token. AI runs afterward as a qualitative reviewer and cannot mutate extraction output. Its response is also rejected if its prose introduces a number.
 
 This choice sacrifices recall for auditability. In this product, a visible refusal is recoverable; a plausible but unsupported amount can silently enter a downstream workflow and is much more expensive.
 
