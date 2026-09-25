@@ -54,3 +54,23 @@ npm run build
 ## Known scope
 
 This time-boxed version supports common single-line invoice, packing-list and docket tables. Complex merged cells, rotated text, handwriting and scans require an OCR/layout stage; those inputs are intentionally refused instead of guessed.
+
+## Engineering reflection
+
+### What was the hardest decision, and why did I choose that approach?
+
+The hardest decision was where to place AI in the pipeline. Using a model for extraction would improve recall across varied layouts, but it would also make the core requirement—never return a number without evidence—harder to enforce and test. I therefore made extraction deterministic and deliberately conservative: PDF.js reconstructs page-aware source lines, strict parsers accept only recognizable table rows, and every numeric field is created together with its page, source line, and raw token. AI runs afterward as a qualitative reviewer and cannot mutate extraction output. Its response is also rejected if its prose introduces a number.
+
+This choice sacrifices recall for auditability. In this product, a visible refusal is recoverable; a plausible but unsupported amount can silently enter a downstream workflow and is much more expensive.
+
+### Where am I not confident?
+
+The largest uncertainty is document-layout coverage. PDF text layers do not guarantee reading order, and the current line reconstruction uses coordinate grouping plus patterns aimed at common single-line tables. It will intentionally refuse, and may over-refuse, documents with wrapped descriptions, merged cells, repeated headers, rotated pages, unusual decimal conventions, or text positioned one character at a time. The six supplied documents should be treated as a starting corpus rather than proof of general accuracy.
+
+I would also want more production evidence around encrypted/malformed PDFs, memory use on large documents, and Gemini quota/provider failures. The AI path is isolated and fails safely, but real provider behavior and Vietnamese/English response quality still need monitoring with representative traffic.
+
+### What would I do with three more days?
+
+1. Build an evaluation harness from annotated PDFs, measuring field-level precision, recall, refusal rate, and evidence correctness. Add adversarial fixtures for contradictions, locale-specific numbers, reordered text, and malformed files.
+2. Replace the regex-first table reader with a coordinate-aware column model that supports wrapped and multi-line rows. Add an OCR path for scanned pages, but only emit OCR values when their bounding boxes and confidence can be surfaced as evidence; otherwise keep the refusal.
+3. Add a side-by-side PDF viewer that highlights the exact source region when evidence is opened, plus structured logs, request limits, timeouts, file-type hardening, accessibility tests, and deployment/CI configuration.
