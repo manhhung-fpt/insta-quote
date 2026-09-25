@@ -1,0 +1,79 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 2252 >>
+stream
+BT /F2 22 Tf 1 0 0 1 55 545 Tm (Ironbark Trade Merchants Ltd) Tj ET
+BT /F1 15 Tf 1 0 0 1 55 515 Tm (Tax Invoice) Tj ET
+BT /F1 12 Tf 1 0 0 1 55 475 Tm (Document No: IB-55871) Tj ET
+BT /F1 12 Tf 1 0 0 1 55 456 Tm (Date: 5 August 2026) Tj ET
+BT /F1 12 Tf 1 0 0 1 55 437 Tm (Bill to: Coastal Build Co) Tj ET
+BT /F1 12 Tf 1 0 0 1 55 418 Tm (Job ref: CB-2216) Tj ET
+BT /F2 11 Tf 1 0 0 1 55 350 Tm (Code) Tj ET
+BT /F2 11 Tf 1 0 0 1 130 350 Tm (Description) Tj ET
+BT /F2 11 Tf 1 0 0 1 450 350 Tm (Qty) Tj ET
+BT /F2 11 Tf 1 0 0 1 520 350 Tm (Unit) Tj ET
+BT /F2 11 Tf 1 0 0 1 600 350 Tm (Unit Price) Tj ET
+BT /F2 11 Tf 1 0 0 1 720 350 Tm (Amount) Tj ET
+55 344 m 790 344 l S
+BT /F1 12 Tf 1 0 0 1 55 318 Tm (FX-201) Tj ET
+BT /F1 12 Tf 1 0 0 1 130 318 Tm (Framing nail gun coil, 90mm galv) Tj ET
+BT /F1 12 Tf 1 0 0 1 450 318 Tm (24) Tj ET
+BT /F1 12 Tf 1 0 0 1 520 318 Tm (box) Tj ET
+BT /F1 12 Tf 1 0 0 1 600 318 Tm ($52.00) Tj ET
+BT /F1 12 Tf 1 0 0 1 720 318 Tm ($1,248.00) Tj ET
+BT /F1 12 Tf 1 0 0 1 55 290 Tm (FX-118) Tj ET
+BT /F1 12 Tf 1 0 0 1 130 290 Tm (Timber connector bolts M12x150) Tj ET
+BT /F1 12 Tf 1 0 0 1 450 290 Tm (60) Tj ET
+BT /F1 12 Tf 1 0 0 1 520 290 Tm (ea) Tj ET
+BT /F1 12 Tf 1 0 0 1 600 290 Tm ($3.40) Tj ET
+BT /F1 12 Tf 1 0 0 1 720 290 Tm ($204.00) Tj ET
+BT /F1 12 Tf 1 0 0 1 55 262 Tm (RF-330) Tj ET
+BT /F1 12 Tf 1 0 0 1 130 262 Tm (Roofing screws Type 17, 65mm) Tj ET
+BT /F1 12 Tf 1 0 0 1 450 262 Tm (10) Tj ET
+BT /F1 12 Tf 1 0 0 1 520 262 Tm (box) Tj ET
+BT /F1 12 Tf 1 0 0 1 600 262 Tm ($46.50) Tj ET
+BT /F1 12 Tf 1 0 0 1 720 262 Tm ($465.00) Tj ET
+BT /F1 12 Tf 1 0 0 1 55 234 Tm (IN-045) Tj ET
+BT /F1 12 Tf 1 0 0 1 130 234 Tm (R2.6 wall insulation batts, pack) Tj ET
+BT /F1 12 Tf 1 0 0 1 450 234 Tm (22) Tj ET
+BT /F1 12 Tf 1 0 0 1 520 234 Tm (pack) Tj ET
+BT /F1 12 Tf 1 0 0 1 600 234 Tm ($61.00) Tj ET
+BT /F1 12 Tf 1 0 0 1 720 234 Tm ($1,342.00) Tj ET
+BT /F1 12 Tf 1 0 0 1 470 175 Tm (Subtotal:) Tj ET
+BT /F1 12 Tf 1 0 0 1 720 175 Tm ($3,259.00) Tj ET
+BT /F1 12 Tf 1 0 0 1 470 150 Tm (GST \(15%\):) Tj ET
+BT /F1 12 Tf 1 0 0 1 720 150 Tm ($488.85) Tj ET
+BT /F2 12 Tf 1 0 0 1 470 125 Tm (Total \(incl GST\):) Tj ET
+BT /F2 12 Tf 1 0 0 1 720 125 Tm ($3,747.85) Tj ET
+BT /F1 10 Tf 1 0 0 1 55 70 Tm (Payment due 20 days from invoice date.) Tj ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000000321 00000 n 
+0000000396 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2700
+%%EOF
