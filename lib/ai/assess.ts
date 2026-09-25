@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import type { AiAssessment, Check, LineItem, Refusal } from "@/lib/types";
+import type { AnalysisLocale } from "@/lib/extraction/parser";
 
 type AiPayload = {
   risk: "low" | "medium" | "high";
@@ -29,6 +30,7 @@ export async function assessDocument(
   lineItems: LineItem[],
   refusals: Refusal[],
   checks: Check[],
+  locale: AnalysisLocale = "vi",
 ): Promise<AiAssessment> {
   const modelName = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
   const apiKey = process.env.GEMINI_API_KEY;
@@ -38,9 +40,13 @@ export async function assessDocument(
       provider: "Gemini",
       model: modelName,
       risk: "unknown",
-      summary: "Chưa bật đánh giá AI. Kết quả trích xuất và các kiểm tra quy tắc vẫn hoạt động đầy đủ.",
+      summary: locale === "vi"
+        ? "Chưa bật đánh giá AI. Kết quả trích xuất và các kiểm tra quy tắc vẫn hoạt động đầy đủ."
+        : "AI review is not enabled. Extraction and deterministic checks are still fully available.",
       observations: [],
-      message: "Thêm GEMINI_API_KEY vào biến môi trường để bật đánh giá AI.",
+      message: locale === "vi"
+        ? "Thêm GEMINI_API_KEY vào biến môi trường để bật đánh giá AI."
+        : "Add GEMINI_API_KEY to the environment to enable AI review.",
     };
   }
 
@@ -64,7 +70,7 @@ export async function assessDocument(
         "You are a cautious document quality reviewer.",
         "You may assess risk, clarity and recommended human review, but never invent or repeat numerical values.",
         "Only reference evidenceId values provided in the input.",
-        "Write concise Vietnamese for non-technical users.",
+        locale === "vi" ? "Write concise Vietnamese for non-technical users." : "Write concise English for non-technical users.",
         "Return JSON: {risk: low|medium|high, summary: string, observations: [{title, detail, evidenceId?}] }.",
         "Do not include digits, quantities, prices, page numbers or currency in any prose field.",
       ].join(" "),
@@ -95,7 +101,9 @@ export async function assessDocument(
       provider: "Gemini",
       model: modelName,
       risk: "unknown",
-      summary: "Không thể hoàn tất đánh giá AI. Kết quả trích xuất bên dưới vẫn giữ nguyên và không bị AI thay đổi.",
+      summary: locale === "vi"
+        ? "Không thể hoàn tất đánh giá AI. Kết quả trích xuất bên dưới vẫn giữ nguyên và không bị AI thay đổi."
+        : "AI review could not be completed. The extraction below remains unchanged and was not altered by AI.",
       observations: [],
       message,
     };

@@ -17,37 +17,34 @@ import {
 import { Evidence } from "./evidence";
 import { formatBytes, formatMoney } from "@/lib/format";
 import type { AnalysisResult } from "@/lib/types";
+import { useLocale } from "./locale-provider";
 
 type Tab = "overview" | "items" | "refusals" | "json";
 
-const tabs: Array<{ id: Tab; label: string }> = [
-  { id: "overview", label: "Tổng quan" },
-  { id: "items", label: "Dòng hàng" },
-  { id: "refusals", label: "Cần kiểm tra" },
-  { id: "json", label: "JSON" },
-];
-
 function StatusPill({ result }: { result: AnalysisResult }) {
+  const { t } = useLocale();
   if (result.status === "extracted") {
-    return <span className="inline-flex items-center gap-1.5 rounded-full bg-moss-100 px-3 py-1.5 text-xs font-bold text-moss-700"><CheckCircle2 className="h-3.5 w-3.5" /> Đã trích xuất</span>;
+    return <span className="inline-flex items-center gap-1.5 rounded-full bg-moss-100 px-3 py-1.5 text-xs font-bold text-moss-700"><CheckCircle2 className="h-3.5 w-3.5" /> {t("extracted")}</span>;
   }
   if (result.status === "partial") {
-    return <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1.5 text-xs font-bold text-amber-800"><AlertTriangle className="h-3.5 w-3.5" /> Cần kiểm tra</span>;
+    return <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1.5 text-xs font-bold text-amber-800"><AlertTriangle className="h-3.5 w-3.5" /> {t("needsReview")}</span>;
   }
-  return <span className="inline-flex items-center gap-1.5 rounded-full bg-rust-100 px-3 py-1.5 text-xs font-bold text-rust-700"><CircleAlert className="h-3.5 w-3.5" /> Đã từ chối trích xuất</span>;
+  return <span className="inline-flex items-center gap-1.5 rounded-full bg-rust-100 px-3 py-1.5 text-xs font-bold text-rust-700"><CircleAlert className="h-3.5 w-3.5" /> {t("refused")}</span>;
 }
 
 function EmptyItems() {
+  const { t } = useLocale();
   return (
     <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-12 text-center">
       <ShieldCheck className="mx-auto h-9 w-9 text-slate-400" />
-      <h3 className="mt-3 font-semibold text-ink">Không có số nào được xuất</h3>
-      <p className="mx-auto mt-1 max-w-md text-sm leading-6 text-slate-500">Bằng chứng hiện tại chưa đủ chắc chắn. Đây là kết quả an toàn — xem tab “Cần kiểm tra” để biết lý do cụ thể.</p>
+      <h3 className="mt-3 font-semibold text-ink">{t("noNumbers")}</h3>
+      <p className="mx-auto mt-1 max-w-md text-sm leading-6 text-slate-500">{t("noNumbersDetail")}</p>
     </div>
   );
 }
 
 function Items({ result }: { result: AnalysisResult }) {
+  const { t } = useLocale();
   if (result.lineItems.length === 0) return <EmptyItems />;
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200">
@@ -55,11 +52,11 @@ function Items({ result }: { result: AnalysisResult }) {
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
             <tr>
-              <th className="px-5 py-4 font-semibold">Mặt hàng</th>
-              <th className="px-4 py-4 font-semibold">Số lượng</th>
-              <th className="px-4 py-4 font-semibold">Đơn vị</th>
-              <th className="px-4 py-4 font-semibold">Đơn giá</th>
-              <th className="px-5 py-4 text-right font-semibold">Thành tiền</th>
+              <th className="px-5 py-4 font-semibold">{t("item")}</th>
+              <th className="px-4 py-4 font-semibold">{t("quantity")}</th>
+              <th className="px-4 py-4 font-semibold">{t("unit")}</th>
+              <th className="px-4 py-4 font-semibold">{t("unitPrice")}</th>
+              <th className="px-5 py-4 text-right font-semibold">{t("amount")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 bg-white">
@@ -81,7 +78,7 @@ function Items({ result }: { result: AnalysisResult }) {
       </div>
       {result.totals.length > 0 && (
         <div className="border-t border-slate-200 bg-[#fbfaf7] px-5 py-4">
-          <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Tổng ghi trên tài liệu</p>
+          <p className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">{t("documentTotals")}</p>
           <div className="ml-auto max-w-sm space-y-3">
             {result.totals.map((total, index) => (
               <div key={`${total.label}-${index}`} className="flex items-start justify-between gap-4">
@@ -100,19 +97,20 @@ function Items({ result }: { result: AnalysisResult }) {
 }
 
 function Refusals({ result }: { result: AnalysisResult }) {
+  const { t } = useLocale();
   if (result.refusals.length === 0) {
     return (
       <div className="rounded-2xl border border-moss-100 bg-moss-50 px-6 py-10 text-center">
         <CheckCircle2 className="mx-auto h-9 w-9 text-moss-600" />
-        <h3 className="mt-3 font-semibold text-moss-900">Không có nội dung bị từ chối</h3>
-        <p className="mt-1 text-sm text-moss-700">Tất cả dòng được nhận diện đều có bằng chứng đủ rõ.</p>
+        <h3 className="mt-3 font-semibold text-moss-900">{t("noRefusals")}</h3>
+        <p className="mt-1 text-sm text-moss-700">{t("noRefusalsDetail")}</p>
       </div>
     );
   }
   return (
     <div className="space-y-3">
       <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
-        <strong>Không phải lỗi hệ thống.</strong> Đây là những chỗ tài liệu chưa đủ rõ hoặc đang tự mâu thuẫn; hệ thống chủ động không đoán.
+        <strong>{t("refusalIntroStrong")}</strong> {t("refusalIntro")}
       </div>
       {result.refusals.map((refusal) => (
         <article key={refusal.id} className={`rounded-2xl border p-5 ${refusal.severity === "critical" ? "border-rust-100 bg-rust-50/60" : "border-amber-200 bg-amber-50/50"}`}>
@@ -123,11 +121,11 @@ function Refusals({ result }: { result: AnalysisResult }) {
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="font-bold text-ink">{refusal.title}</h3>
-                {refusal.page && <span className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-slate-500">Trang {refusal.page}</span>}
+                {refusal.page && <span className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-slate-500">{t("page", { page: refusal.page })}</span>}
               </div>
               <p className="mt-1.5 text-sm leading-6 text-slate-700">{refusal.reason}</p>
               <div className="mt-3 rounded-xl bg-white/80 px-3.5 py-3 text-sm text-slate-700">
-                <span className="font-bold text-moss-700">Nên làm gì:</span> {refusal.whatToDo}
+                <span className="font-bold text-moss-700">{t("whatToDo")}</span> {refusal.whatToDo}
               </div>
               {refusal.sourceText && <Evidence evidence={{ page: refusal.page ?? 1, sourceText: refusal.sourceText }} />}
             </div>
@@ -139,15 +137,16 @@ function Refusals({ result }: { result: AnalysisResult }) {
 }
 
 function AiCard({ result }: { result: AnalysisResult }) {
+  const { t } = useLocale();
   const assessment = result.aiAssessment;
-  const riskLabel = { low: "Rủi ro thấp", medium: "Nên kiểm tra", high: "Rủi ro cao", unknown: "Chưa đánh giá" }[assessment.risk];
+  const riskLabel = { low: t("riskLow"), medium: t("riskMedium"), high: t("riskHigh"), unknown: t("riskUnknown") }[assessment.risk];
   return (
     <div className="rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50 to-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-100 text-violet-700"><Sparkles className="h-5 w-5" /></span>
           <div>
-            <h3 className="font-bold text-ink">AI đánh giá tài liệu</h3>
+            <h3 className="font-bold text-ink">{t("aiReview")}</h3>
             <p className="text-xs text-slate-500">{assessment.provider} · {assessment.model}</p>
           </div>
         </div>
@@ -166,12 +165,13 @@ function AiCard({ result }: { result: AnalysisResult }) {
           ))}
         </div>
       )}
-      <p className="mt-4 flex items-center gap-1.5 text-xs text-violet-700"><Bot className="h-3.5 w-3.5" /> AI chỉ đánh giá; không tạo hoặc sửa số liệu trích xuất.</p>
+      <p className="mt-4 flex items-center gap-1.5 text-xs text-violet-700"><Bot className="h-3.5 w-3.5" /> {t("aiBoundary")}</p>
     </div>
   );
 }
 
 function Overview({ result }: { result: AnalysisResult }) {
+  const { t } = useLocale();
   return (
     <div className="grid gap-5 lg:grid-cols-[1.2fr_.8fr]">
       <div className="space-y-5">
@@ -179,21 +179,21 @@ function Overview({ result }: { result: AnalysisResult }) {
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
             <PackageCheck className="h-5 w-5 text-moss-600" />
             <p className="mt-4 text-2xl font-bold text-ink">{result.lineItems.length}</p>
-            <p className="mt-1 text-xs font-medium text-slate-500">Dòng có bằng chứng</p>
+            <p className="mt-1 text-xs font-medium text-slate-500">{t("sourcedLines")}</p>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
             <AlertTriangle className="h-5 w-5 text-amber-600" />
             <p className="mt-4 text-2xl font-bold text-ink">{result.refusals.length}</p>
-            <p className="mt-1 text-xs font-medium text-slate-500">Điểm cần kiểm tra</p>
+            <p className="mt-1 text-xs font-medium text-slate-500">{t("reviewPoints")}</p>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white p-4">
             <FileJson className="h-5 w-5 text-slate-500" />
             <p className="mt-4 text-2xl font-bold text-ink">{result.document.pageCount}</p>
-            <p className="mt-1 text-xs font-medium text-slate-500">Trang đã đọc</p>
+            <p className="mt-1 text-xs font-medium text-slate-500">{t("pagesRead")}</p>
           </div>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
-          <div className="mb-4 flex items-center gap-2"><ClipboardCheck className="h-5 w-5 text-moss-600" /><h3 className="font-bold text-ink">Kiểm tra tự động</h3></div>
+          <div className="mb-4 flex items-center gap-2"><ClipboardCheck className="h-5 w-5 text-moss-600" /><h3 className="font-bold text-ink">{t("automatedChecks")}</h3></div>
           <div className="space-y-3">
             {result.checks.map((check) => (
               <div key={check.id} className="flex items-start gap-3 rounded-xl bg-slate-50 p-3.5">
@@ -212,6 +212,7 @@ function Overview({ result }: { result: AnalysisResult }) {
 }
 
 export function Results({ result }: { result: AnalysisResult }) {
+  const { t } = useLocale();
   const [tab, setTab] = useState<Tab>(result.refusals.length > 0 ? "refusals" : "overview");
   const [copied, setCopied] = useState(false);
   const copyJson = async () => {
@@ -219,16 +220,22 @@ export function Results({ result }: { result: AnalysisResult }) {
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
   };
+  const tabs: Array<{ id: Tab; label: string }> = [
+    { id: "overview", label: t("overview") },
+    { id: "items", label: t("items") },
+    { id: "refusals", label: t("refusals") },
+    { id: "json", label: "JSON" },
+  ];
 
   return (
     <section className="mt-8 overflow-hidden rounded-[28px] border border-white/70 bg-white/95 shadow-soft">
       <div className="border-b border-slate-200 px-5 py-5 sm:px-7">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl font-semibold text-ink">Kết quả phân tích</h2><StatusPill result={result} /></div>
+            <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-2xl font-semibold text-ink">{t("results")}</h2><StatusPill result={result} /></div>
             <p className="mt-1 text-sm text-slate-500">{result.document.fileName} · {formatBytes(result.document.sizeBytes)}</p>
           </div>
-          <div className="flex items-center gap-2 rounded-xl bg-moss-50 px-3 py-2 text-xs font-semibold text-moss-700"><ShieldCheck className="h-4 w-4" /> Không đoán số liệu</div>
+          <div className="flex items-center gap-2 rounded-xl bg-moss-50 px-3 py-2 text-xs font-semibold text-moss-700"><ShieldCheck className="h-4 w-4" /> {t("noGuessing")}</div>
         </div>
       </div>
       <div className="border-b border-slate-200 px-3 sm:px-6">
@@ -257,7 +264,7 @@ export function Results({ result }: { result: AnalysisResult }) {
         {tab === "json" && (
           <div className="relative">
             <button type="button" onClick={copyJson} className="focus-ring absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm transition hover:text-moss-700">
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}{copied ? "Đã sao chép" : "Sao chép"}
+              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}{copied ? t("copied") : t("copy")}
             </button>
             <pre className="max-h-[560px] overflow-auto rounded-2xl bg-[#172126] p-5 pt-14 text-xs leading-6 text-emerald-100">{JSON.stringify(result, null, 2)}</pre>
           </div>

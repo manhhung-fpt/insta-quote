@@ -8,6 +8,7 @@ Evidence-first PDF line-item extraction. The service extracts only values that c
 - Tailwind CSS
 - PDF.js for page-aware text extraction
 - Optional Gemini assessment (never used to create or change extracted numbers)
+- Vietnamese/English interface with a persistent language toggle
 - Vitest
 
 ## Run locally
@@ -20,6 +21,8 @@ npm run dev
 ```
 
 Open `http://localhost:3000`. The built-in sample is based on the supplied Ironbark invoice.
+
+Use the `VI / EN` switch in the header to change the full interface language. The selected locale is persisted locally and is sent to the analysis API so validation errors, refusals, checks, and AI review use the same language.
 
 Extraction works without any AI key. To enable the AI review card, add `GEMINI_API_KEY` to `.env.local`. The default is the stable, throughput-oriented `gemini-3.5-flash-lite`; `GEMINI_MODEL` remains configurable so the deployment can follow account availability without changing code.
 

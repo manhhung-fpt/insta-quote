@@ -52,6 +52,15 @@ describe("evidence-first document parser", () => {
     expect(result.refusals[0]).toMatchObject({ code: "NO_TEXT_LAYER", page: 1, severity: "critical" });
   });
 
+  it("returns user-facing refusals and checks in English when requested", () => {
+    const result = parseDocumentLines([], [2], "en");
+    expect(result.refusals[0]).toMatchObject({
+      title: "No readable text on page 2",
+      reason: expect.stringContaining("scan"),
+    });
+    expect(result.checks[0]).toMatchObject({ label: "Source evidence" });
+  });
+
   it("parses currencies and parenthesized negatives strictly", () => {
     expect(parseNumber("$1,248.00")).toBe(1248);
     expect(parseNumber("(204.50)")).toBe(-204.5);

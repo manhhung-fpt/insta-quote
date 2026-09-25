@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { ChevronDown, FileText, Quote } from "lucide-react";
 import type { Evidence as EvidenceType } from "@/lib/types";
+import { useLocale } from "./locale-provider";
 
 export function Evidence({ evidence, compact = false }: { evidence: EvidenceType; compact?: boolean }) {
   const [open, setOpen] = useState(false);
+  const { t } = useLocale();
   return (
     <div className={compact ? "mt-2" : "mt-3"}>
       <button
@@ -15,7 +17,7 @@ export function Evidence({ evidence, compact = false }: { evidence: EvidenceType
         aria-expanded={open}
       >
         <FileText className="h-3.5 w-3.5" />
-        Trang {evidence.page} · Xem nguồn
+        {t("evidencePage", { page: evidence.page })}
         <ChevronDown className={`h-3.5 w-3.5 transition ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
@@ -25,7 +27,7 @@ export function Evidence({ evidence, compact = false }: { evidence: EvidenceType
             <div className="font-mono text-[13px] leading-relaxed">{evidence.sourceText}</div>
             {evidence.rawValue && (
               <div className="mt-2 text-xs text-slate-500">
-                Giá trị khớp: <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-slate-700">{evidence.rawValue}</span>
+                {t("matchedValue")} <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-slate-700">{evidence.rawValue}</span>
               </div>
             )}
           </div>
